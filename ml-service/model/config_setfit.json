@@ -1,0 +1,11 @@
+{
+  "normalize_embeddings": false,
+  "labels": [
+    "Alimentacao",
+    "Assinaturas",
+    "Combustivel",
+    "Mercado",
+    "Saude",
+    "Transporte"
+  ]
+}

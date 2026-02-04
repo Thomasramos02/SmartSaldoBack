@@ -1,0 +1,18 @@
+# Backend repo ignores
+
+# Node (Nest)
+saas/node_modules/
+saas/dist/
+saas/.env
+saas/.env.*
+
+# Python
+ml-service/.venv/
+ml-service/__pycache__/
+ocr-service/__pycache__/
+**/*.pyc
+
+# ML artifacts (large)
+ml-service/model/model.safetensors
+ml-service/model/**/*.safetensors
+ml-service/checkpoints/
