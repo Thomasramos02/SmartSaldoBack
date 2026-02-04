@@ -28,6 +28,9 @@ import { StripeModule } from './features/stripe/stripe.module';
       database: process.env.DB_NAME || 'saas',
       entities: [User, Expense, Category, Alert, Goal],
       synchronize: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     AuthModule,
     UsersModule,
