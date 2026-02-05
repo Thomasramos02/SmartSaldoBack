@@ -15,6 +15,7 @@ import { AlertModule } from './features/alert/alert.module';
 import { IAModule } from './features/ai/ia.module';
 import { ReportModule } from './features/report/report.module';
 import { StripeModule } from './features/stripe/stripe.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { StripeModule } from './features/stripe/stripe.module';
     IAModule,
     ReportModule,
     StripeModule,
+    HealthModule,
   ],
 })
 export class AppModule {}
