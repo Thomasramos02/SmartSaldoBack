@@ -225,9 +225,6 @@ export class ExpensesService {
         throw new NotFoundException('User not found');
       }
       if (user.plan === 'free') {
-        this.logger.warn(
-          `[getTotalsGroupedByMonth] User ${userId} blocked: Free Plan.`,
-        );
         const today = new Date();
         const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
 
