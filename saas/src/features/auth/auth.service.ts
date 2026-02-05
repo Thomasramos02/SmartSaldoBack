@@ -9,13 +9,14 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../users/users.entity';
 import { Request, Response } from 'express';
 import { JwtUserPayload } from './type/JwtUserPayload';
-import * as crypto from 'crypto';
+import *s crypto from 'crypto';
 import * as nodemailer from 'nodemailer';
 
 type AuthInput = { email: string; password: string };
 type AuthResult = { access_token: string; user?: Omit<User, 'password'> };
 
-type GoogleLoginResult = { access_token: string; user: Omit<User, 'password'> };
+// Updated type definition
+type GoogleAuthTokens = { access_token: string; refreshToken: string; user: Omit<User, 'password'> };
 
 @Injectable()
 export class AuthService {
@@ -38,7 +39,7 @@ export class AuthService {
   }
 
   async authenticate(input: AuthInput, res: Response): Promise<AuthResult> {
-    const user = await this.validateUser(input.email, input.password);
+    const user = await this.usersService.findUserByEmail(input.email);
     if (!user) {
       throw new UnauthorizedException();
     }
@@ -117,8 +118,8 @@ export class AuthService {
       firstName: string;
       lastName: string;
     },
-    res: Response,
-  ): Promise<GoogleLoginResult> {
+    // Removed 'res: Response' argument
+  ): Promise<GoogleAuthTokens> { // Changed return type
     const foundUser = await this.usersService.findUserByEmail(googleUser.email); // User | null
     let safeUser: Omit<User, 'password'>;
 
@@ -138,23 +139,20 @@ export class AuthService {
       throw new UnauthorizedException('User could not be found or created.');
     }
 
-    const payload = {
-      sub: safeUser.id,
+    const jwtUser: JwtUserPayload = {
+      id: safeUser.id,
       email: safeUser.email,
       plan: safeUser.plan,
     };
 
-    const accessToken = this.jwtService.sign(payload);
-    const refreshToken = this.generateRefreshToken({
-      id: safeUser.id,
-      email: safeUser.email,
-      plan: safeUser.plan,
-    });
-    this.setAccessCookie(res, accessToken);
-    this.setRefreshCookie(res, refreshToken);
+    const accessToken = this.generateAccessToken(jwtUser);
+    const refreshToken = this.generateRefreshToken(jwtUser);
+    // Removed this.setAccessCookie(res, accessToken);
+    // Removed this.setRefreshCookie(res, refreshToken);
 
     return {
       access_token: accessToken,
+      refreshToken: refreshToken, // Added refreshToken to the return object
       user: safeUser,
     };
   }

@@ -102,7 +102,10 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   async googleCallback(@Request() req, @Res() res) {
-    await this.authService.loginWithGoogle(req.user, res);
+    const { access_token, refreshToken } = await this.authService.loginWithGoogle(req.user); // Get tokens
+    this.authService.setAccessCookie(res, access_token); // Set cookies explicitly
+    this.authService.setRefreshCookie(res, refreshToken); // Set cookies explicitly
+
     const redirect = req.query.redirect || '/dashboard';
     const plan = req.query.plan || '';
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
