@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../users/users.entity';
 import { Request, Response } from 'express';
 import { JwtUserPayload } from './type/JwtUserPayload';
-import *s crypto from 'crypto';
+import * as crypto from 'crypto';
 import * as nodemailer from 'nodemailer';
 
 type AuthInput = { email: string; password: string };
