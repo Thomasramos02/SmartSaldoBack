@@ -147,7 +147,9 @@ export class CategoryIAService {
     let categoryName: string;
     try {
       const response = await firstValueFrom(
-        this.httpService.post(`${ML_SERVICE_BASE_URL}/classify`, { text: desc }),
+        this.httpService.post(`${ML_SERVICE_BASE_URL}/classify`, {
+          text: desc,
+        }),
       );
       // O serviço externo retorna { category: "Nome da Categoria" }
 

@@ -120,6 +120,7 @@ export class ExpensesService {
     if (dto.isRecurring !== undefined) expense.isRecurring = dto.isRecurring;
 
     if (dto.isDeductible !== undefined) expense.isDeductible = dto.isDeductible;
+    if (dto.date !== undefined) expense.date = dto.date;
 
     return this.expensesRepository.save(expense);
   }
